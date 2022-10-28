@@ -1,0 +1,81 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"linkReferences": {},
+			"object": "608c610024600b82828239805160001a607314601757fe5b30600052607381538281f3fe730000000000000000000000000000000000000000301460806040526004361060335760003560e01c80631e9d4904146038575b600080fd5b603e6050565b60408051918252519081900360200190f35b61012c8156fea264697066735822122017f756139927a9663d48fae1821ba699317033626dcc4637ab3c0199fd6da3e164736f6c634300060c0033",
+			"opcodes": "PUSH1 0x8C PUSH2 0x24 PUSH1 0xB DUP3 DUP3 DUP3 CODECOPY DUP1 MLOAD PUSH1 0x0 BYTE PUSH1 0x73 EQ PUSH1 0x17 JUMPI INVALID JUMPDEST ADDRESS PUSH1 0x0 MSTORE PUSH1 0x73 DUP2 MSTORE8 DUP3 DUP2 RETURN INVALID PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x4 CALLDATASIZE LT PUSH1 0x33 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x1E9D4904 EQ PUSH1 0x38 JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x3E PUSH1 0x50 JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD SWAP2 DUP3 MSTORE MLOAD SWAP1 DUP2 SWAP1 SUB PUSH1 0x20 ADD SWAP1 RETURN JUMPDEST PUSH2 0x12C DUP2 JUMP INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 OR 0xF7 JUMP SGT SWAP10 0x27 0xA9 PUSH7 0x3D48FAE1821BA6 SWAP10 BALANCE PUSH17 0x33626DCC4637AB3C0199FD6DA3E164736F PUSH13 0x634300060C0033000000000000 ",
+			"sourceMap": "471:1087:9:-:0;;;;;;;;;;;;;;;;;;;;;;;;;"
+		},
+		"deployedBytecode": {
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "730000000000000000000000000000000000000000301460806040526004361060335760003560e01c80631e9d4904146038575b600080fd5b603e6050565b60408051918252519081900360200190f35b61012c8156fea264697066735822122017f756139927a9663d48fae1821ba699317033626dcc4637ab3c0199fd6da3e164736f6c634300060c0033",
+			"opcodes": "PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x4 CALLDATASIZE LT PUSH1 0x33 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x1E9D4904 EQ PUSH1 0x38 JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x3E PUSH1 0x50 JUMP JUMPDEST PUSH1 0x40 DUP1 MLOAD SWAP2 DUP3 MSTORE MLOAD SWAP1 DUP2 SWAP1 SUB PUSH1 0x20 ADD SWAP1 RETURN JUMPDEST PUSH2 0x12C DUP2 JUMP INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 OR 0xF7 JUMP SGT SWAP10 0x27 0xA9 PUSH7 0x3D48FAE1821BA6 SWAP10 BALANCE PUSH17 0x33626DCC4637AB3C0199FD6DA3E164736F PUSH13 0x634300060C0033000000000000 ",
+			"sourceMap": "471:1087:9:-:0;;;;;;;;;;;;;;;;;;;;;;;;604:48;;;:::i;:::-;;;;;;;;;;;;;;;;;643:9;604:48;:::o"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "28000",
+				"executionCost": "106",
+				"totalCost": "28106"
+			},
+			"external": {
+				"DECAY_PERIOD()": "160"
+			},
+			"internal": {
+				"current(struct VirtualBalance.Data memory,uint256)": "infinite",
+				"scale(struct VirtualBalance.Data storage pointer,uint256,uint256,uint256)": "infinite",
+				"set(struct VirtualBalance.Data storage pointer,uint256)": "infinite",
+				"update(struct VirtualBalance.Data storage pointer,uint256)": "infinite"
+			}
+		},
+		"methodIdentifiers": {
+			"DECAY_PERIOD()": "1e9d4904"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [],
+			"name": "DECAY_PERIOD",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}

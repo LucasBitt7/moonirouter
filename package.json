@@ -1,0 +1,45 @@
+{
+    "name": "@1inch/mooniswap",
+    "version": "0.0.1",
+    "description": "",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:CryptoManiacsZone/mooniswap.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@openzeppelin/contracts": "^3.0.2"
+    },
+    "devDependencies": {
+        "@codechecks/client": "^0.1.10",
+        "chai": "^4.2.0",
+        "coveralls": "^3.1.0",
+        "eslint": "^7.5.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.0.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "eth-gas-reporter": "^0.2.17",
+        "ganache-cli": "^6.9.1",
+        "@openzeppelin/test-helpers": "^0.5.6",
+        "solc": "^0.6.12",
+        "solidity-coverage": "^0.7.9",
+        "solhint": "^3.0.0",
+        "truffle": "^5.1.35",
+        "truffle-flattener": "^1.4.4"
+    },
+    "scripts": {
+        "test": "truffle test --stacktrace",
+        "coverage": "truffle run coverage",
+        "coveralls": "truffle run coverage && cat coverage/lcov.info | coveralls",
+        "lint:js": "eslint .",
+        "lint:js:fix": "eslint . --fix",
+        "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
+        "lint:sol:fix": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix",
+        "lint": "yarn run lint:js && yarn run lint:sol",
+        "lint:fix": "yarn run lint:js:fix && yarn run lint:sol:fix",
+        "dist": "truffle-flattener ./contracts/Mooniswap.sol |  awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./Mooniswap.full.sol && solcjs --bin --abi --optimize ./Mooniswap.full.sol && mv ./__Mooniswap_full_sol_Mooniswap.bin ./Mooniswap.full.bin && mv ./__Mooniswap_full_sol_Mooniswap.abi ./Mooniswap.full.abi && rm ./*_sol_*",
+        "dist:factory": "truffle-flattener ./contracts/MooniFactory.sol |  awk '/SPDX-License-Identifier/&&c++>0 {next} 1' > ./MooniFactory.full.sol && solcjs --bin --abi --optimize ./MooniFactory.full.sol && mv ./__MooniFactory_full_sol_MooniFactory.bin ./MooniFactory.full.bin && mv ./__MooniFactory_full_sol_MooniFactory.abi ./MooniFactory.full.abi && rm ./*_sol_*"
+    }
+}
