@@ -73,7 +73,7 @@
 				"name": "allPools",
 				"outputs": [
 					{
-						"internalType": "contract Mooniswap",
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -97,8 +97,8 @@
 				"name": "deploy",
 				"outputs": [
 					{
-						"internalType": "contract Mooniswap",
-						"name": "pool",
+						"internalType": "address",
+						"name": "pair",
 						"type": "address"
 					}
 				],
@@ -123,7 +123,7 @@
 				"name": "getAllPools",
 				"outputs": [
 					{
-						"internalType": "contract Mooniswap[]",
+						"internalType": "address[]",
 						"name": "",
 						"type": "address[]"
 					}
@@ -134,7 +134,7 @@
 			{
 				"inputs": [
 					{
-						"internalType": "contract Mooniswap",
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -179,7 +179,7 @@
 				"name": "pools",
 				"outputs": [
 					{
-						"internalType": "contract Mooniswap",
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -360,11 +360,11 @@
 			]
 		},
 		"contracts/MooniFactory.sol": {
-			"keccak256": "0xf1d846fc6558c2e2dba7a18320380d02ef1f7684152d463bc06c302d1a2a8617",
+			"keccak256": "0xa6c78dd2151d08ce2ce2ff3d59444456824f232085f9d0af6afd076eea65be57",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://818041fcbe2f14cd2f5b2a34225f5a796c21eb17eb074beb6f9ec623d2c36b44",
-				"dweb:/ipfs/QmR2aYsnBonFuai69htYFL1yDSqKs8zAmyNc7ThMKx4pEx"
+				"bzz-raw://6ecfcb4a948427ab1663257a50917b788e680d3cb412f31e021e22e6092b097d",
+				"dweb:/ipfs/QmTHT5LQWNxKDhgszB7CGUiw7bokSsNrsseCajyAGRVTYt"
 			]
 		},
 		"contracts/Mooniswap.sol": {
@@ -373,6 +373,13 @@
 			"urls": [
 				"bzz-raw://1398df13bd33d46141c658e89109dea76d6627a9e92da301771f4c64fef4e61a",
 				"dweb:/ipfs/QmUcfFZhzC4iR2z5cpJHggPPRvmWhWo8Gv7f1JLe17v9jS"
+			]
+		},
+		"contracts/interfaces/IMooniswap.sol": {
+			"keccak256": "0x4d500da0afdf093f576350403aba0b91ed3543b65154dcf981b656f22c365cd5",
+			"urls": [
+				"bzz-raw://fc252221c627db7a4aad7740d5d87d025478a504256ff3fcf03a37e3279d1cf8",
+				"dweb:/ipfs/QmWCMYj4itoMmGBNRk24vGQG7VEYFm4qnw3ZfACgTaQJrQ"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {

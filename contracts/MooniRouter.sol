@@ -5,12 +5,19 @@ pragma solidity ^0.6.0;
 
 import "./libraries/UniERC20.sol";
 import "./libraries/TransferHelper.sol";
+import "./libraries/MathLib.sol";
+
+import './interfaces/IERC20.sol';
+import './interfaces/IWETH.sol';
+import "./interfaces/IMooniswap";
+
+import "./MooniFactory.sol";
 import "./Mooniswap.sol";
 
 
 contract MooniRouter {
     using UniERC20 for IERC20;
-        address public immutable override factory;
+    address public immutable override factory;
     address public immutable override WETH;
 
     modifier ensure(uint deadline) {
@@ -29,36 +36,40 @@ contract MooniRouter {
 
     // **** ADD LIQUIDITY ****
     function _addLiquidity(
-        address tokenA,
-        address tokenB,
+        IERC20 tokenA,
+        IER20 tokenB,
+        address mooniswapPair,//NEW
         uint amountADesired,
         uint amountBDesired,
         uint amountAMin,
         uint amountBMin
     ) private returns (uint amountA, uint amountB) {
         // create the pair if it doesn't exist yet
-        if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
-            IUniswapV2Factory(factory).createPair(tokenA, tokenB);
-        }
-        (uint reserveA, uint reserveB) = UniswapV2Library.getReserves(factory, tokenA, tokenB);
+        if (MooniFactory(factory).pools(tokenA, tokenB) == address(0)) {
+            MooniFactory(factory).deploy(tokenA, tokenB);
+        }/////maybe reserveA = TokenA.balanceOf(address(this))??
+       // (uint reserveA, uint reserveB) = UniswapV2Library.getReserves(factory, tokenA, tokenB);
+       uint reserveA = tokenA.balenceOf(mooniswapPair);
+       uint reserveB = tokenB.balenceOf(mooniswapPair);
         if (reserveA == 0 && reserveB == 0) {
             (amountA, amountB) = (amountADesired, amountBDesired);
         } else {
             uint amountBOptimal = UniswapV2Library.quote(amountADesired, reserveA, reserveB);
             if (amountBOptimal <= amountBDesired) {
-                require(amountBOptimal >= amountBMin, 'UniswapV2Router: INSUFFICIENT_B_AMOUNT');
+                require(amountBOptimal >= amountBMin, 'Router: INSUFFICIENT_B_AMOUNT');
                 (amountA, amountB) = (amountADesired, amountBOptimal);
             } else {
-                uint amountAOptimal = UniswapV2Library.quote(amountBDesired, reserveB, reserveA);
+                uint amountAOptimal = MathLib.quote(amountBDesired, reserveB, reserveA);
                 assert(amountAOptimal <= amountADesired);
-                require(amountAOptimal >= amountAMin, 'UniswapV2Router: INSUFFICIENT_A_AMOUNT');
+                require(amountAOptimal >= amountAMin, 'Router: INSUFFICIENT_A_AMOUNT');
                 (amountA, amountB) = (amountAOptimal, amountBDesired);
             }
         }
     }
     function addLiquidity(
-        address tokenA,
-        address tokenB,
+        IERC20 tokenA,
+        IERC20 tokenB,
+        address mooniswapPair,//NEW
         uint amountADesired,
         uint amountBDesired,
         uint amountAMin,
@@ -282,4 +293,4 @@ contract MooniRouter {
 
     
 
-}
+
