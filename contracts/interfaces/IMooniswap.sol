@@ -55,7 +55,7 @@ abstract contract IMooniswap is ERC20, Ownable{
     mapping(IERC20 => VirtualBalance.Data) public virtualBalancesForAddition;
     mapping(IERC20 => VirtualBalance.Data) public virtualBalancesForRemoval;
 
-
+    function initialize(IERC20[] memory assets) external virtual;
 
     function fee() external virtual view returns(uint256);
 
