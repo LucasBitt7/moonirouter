@@ -7,9 +7,9 @@ import "./libraries/UniERC20.sol";
 import "./libraries/TransferHelper.sol";
 import "./libraries/MathLib.sol";
 
-import './interfaces/IERC20.sol';
-import './interfaces/IWETH.sol';
-import "./interfaces/IMooniswap";
+import "./interfaces/IERC20.sol";
+import "./interfaces/IWETH.sol";
+import "./interfaces/IMooniswap.sol";
 
 import "./MooniFactory.sol";
 import "./Mooniswap.sol";
@@ -38,7 +38,6 @@ contract MooniRouter {
     function _addLiquidity(
         IERC20 tokenA,
         IER20 tokenB,
-        address mooniswapPair,//NEW
         uint amountADesired,
         uint amountBDesired,
         uint amountAMin,
@@ -48,13 +47,14 @@ contract MooniRouter {
         if (MooniFactory(factory).pools(tokenA, tokenB) == address(0)) {
             MooniFactory(factory).deploy(tokenA, tokenB);
         }/////maybe reserveA = TokenA.balanceOf(address(this))??
-       // (uint reserveA, uint reserveB) = UniswapV2Library.getReserves(factory, tokenA, tokenB);
-       uint reserveA = tokenA.balenceOf(mooniswapPair);
-       uint reserveB = tokenB.balenceOf(mooniswapPair);
+       // (uint reserveA, uint reserveB) = MathLib.getReserves(factory, tokenA, tokenB);
+        address pair = MooniFactory(factory).pairFor(tokenA, tokenB);
+       uint reserveA = tokenA.balenceOf(pair);
+       uint reserveB = tokenB.balenceOf(pair);
         if (reserveA == 0 && reserveB == 0) {
             (amountA, amountB) = (amountADesired, amountBDesired);
         } else {
-            uint amountBOptimal = UniswapV2Library.quote(amountADesired, reserveA, reserveB);
+            uint amountBOptimal = MathLib.quote(amountADesired, reserveA, reserveB);
             if (amountBOptimal <= amountBDesired) {
                 require(amountBOptimal >= amountBMin, 'Router: INSUFFICIENT_B_AMOUNT');
                 (amountA, amountB) = (amountADesired, amountBOptimal);
@@ -69,28 +69,34 @@ contract MooniRouter {
     function addLiquidity(
         IERC20 tokenA,
         IERC20 tokenB,
-        address mooniswapPair,//NEW
         uint amountADesired,
         uint amountBDesired,
         uint amountAMin,
         uint amountBMin,
-        address to,
-        uint deadline
-    ) external override ensure(deadline) returns (uint amountA, uint amountB, uint liquidity) {
+        address to
+    ) external override returns (uint amountA, uint amountB, uint liquidity) {
         (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
-        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
-        TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
-        TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
-        liquidity = IUniswapV2Pair(pair).mint(to);
+        address pair = MooniFactory(factory).pairFor(tokenA, tokenB);
+
+        uint[] calldata amounts = new uint[](2);
+        amounts[0] = amountA;
+        amounts[1] = amountB;
+
+        IMooniswap(pair).deposit(amounts, amounts);
+        uint amount = IMooniswap.balenceOf(address(this));
+        IMooniswap(pair).transfer(to, amount); ///new way
+
+        // TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
+        // TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
+        // liquidity = IUniswapV2Pair(pair).mint(to);  UNISWAPV2 WAY
     }
     function addLiquidityETH(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
         uint amountETHMin,
-        address to,
-        uint deadline
-    ) external override payable ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
+        address to
+    ) external override payable returns (uint amountToken, uint amountETH, uint liquidity) {
         (amountToken, amountETH) = _addLiquidity(
             token,
             WETH,
@@ -99,11 +105,14 @@ contract MooniRouter {
             amountTokenMin,
             amountETHMin
         );
-        address pair = UniswapV2Library.pairFor(factory, token, WETH);
-        TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
-        IWETH(WETH).deposit{value: amountETH}();
-        assert(IWETH(WETH).transfer(pair, amountETH));
-        liquidity = IUniswapV2Pair(pair).mint(to);
+
+        uint[] calldata amounts = new uint[](2);
+        amounts[0] = amountA;
+
+        address pair = MooniFactory(factory).pairFor(token, WETH);
+        IMooniswap(pair).deposit{value: amountETH}(amounts, amounts);
+        uint amount = IMooniswap.balenceOf(address(this));
+        IMooniswap(pair).transfer(to, amount); ///new way
         if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH); // refund dust eth, if any
     }
 
@@ -114,25 +123,39 @@ contract MooniRouter {
         uint liquidity,
         uint amountAMin,
         uint amountBMin,
-        address to,
-        uint deadline
-    ) public override ensure(deadline) returns (uint amountA, uint amountB) {
-        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
-        IUniswapV2Pair(pair).transferFrom(msg.sender, pair, liquidity); // send liquidity to pair
-        (uint amount0, uint amount1) = IUniswapV2Pair(pair).burn(to);
-        (address token0,) = UniswapV2Library.sortTokens(tokenA, tokenB);
+        address to
+ 
+    ) public override returns (uint amountA, uint amountB) {
+        address pair = MooniFactory(factory).pairFor( tokenA, tokenB);
+
+        uint[] memory amounts = new uint[](2);
+        amounts[0] = amountAMin;
+        amounts[1] = amountBMin;  
+        IMooniswap(pair).withdraw(liquidity, amounts);
+
+        uint amountWA = IERC20(tokenA).balenceOf(address(this));
+        uint amountWB = IERC20(tokenB).balenceOf(address(this));
+
+        TransferHelper.safeTransfer(tokenA, to, amountWA);
+        TransferHelper.safeTransfer(tokenB, to, amountWB);
+
+        (address token0,) = MathLib.sortTokens(tokenA, tokenB);
         (amountA, amountB) = tokenA == token0 ? (amount0, amount1) : (amount1, amount0);
-        require(amountA >= amountAMin, 'UniswapV2Router: INSUFFICIENT_A_AMOUNT');
-        require(amountB >= amountBMin, 'UniswapV2Router: INSUFFICIENT_B_AMOUNT');
+        require(amountA >= amountAMin, "INSUFFICIENT_A_AMOUNT");
+        require(amountB >= amountBMin, "INSUFFICIENT_B_AMOUNT");
     }
     function removeLiquidityETH(
         address token,
         uint liquidity,
         uint amountTokenMin,
         uint amountETHMin,
-        address to,
-        uint deadline
-    ) public override ensure(deadline) returns (uint amountToken, uint amountETH) {
+        address to
+    ) public override returns (uint amountToken, uint amountETH) {
+        address pair = MooniFactory(factory).pairFor( WETH, token);
+        uint[] memory amounts = new uint[](2);
+        amounts[0] = amountAMin;
+        amounts[1] = amountBMin;  
+        IMooniswap(pair).withdraw(liquidity, amounts);
         (amountToken, amountETH) = removeLiquidity(
             token,
             WETH,
@@ -142,6 +165,7 @@ contract MooniRouter {
             address(this),
             deadline
         );
+
         TransferHelper.safeTransfer(token, to, amountToken);
         IWETH(WETH).withdraw(amountETH);
         TransferHelper.safeTransferETH(to, amountETH);
@@ -156,138 +180,128 @@ contract MooniRouter {
         uint deadline,
         bool approveMax, uint8 v, bytes32 r, bytes32 s
     ) external override returns (uint amountA, uint amountB) {
-        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
+        address pair = MooniFactory(factory).pairFor( tokenA, tokenB);
         uint value = approveMax ? uint(-1) : liquidity;
-        IUniswapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
+         IMooniswap(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
         (amountA, amountB) = removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, to, deadline);
     }
-    function removeLiquidityETHWithPermit(
-        address token,
-        uint liquidity,
-        uint amountTokenMin,
-        uint amountETHMin,
-        address to,
-        uint deadline,
-        bool approveMax, uint8 v, bytes32 r, bytes32 s
-    ) external override returns (uint amountToken, uint amountETH) {
-        address pair = UniswapV2Library.pairFor(factory, token, WETH);
-        uint value = approveMax ? uint(-1) : liquidity;
-        IUniswapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
-        (amountToken, amountETH) = removeLiquidityETH(token, liquidity, amountTokenMin, amountETHMin, to, deadline);
-    }
+
 
     // **** SWAP ****
     // requires the initial amount to have already been sent to the first pair
-    function _swap(uint[] memory amounts, address[] memory path, address _to) private {
+    function _swap(uint[] memory amounts, address[] memory path, address _to,  address referral) private {
         for (uint i; i < path.length - 1; i++) {
             (address input, address output) = (path[i], path[i + 1]);
-            (address token0,) = UniswapV2Library.sortTokens(input, output);
+            (address token0,) = MathLib.sortTokens(input, output);
             uint amountOut = amounts[i + 1];
             (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOut) : (amountOut, uint(0));
-            address to = i < path.length - 2 ? UniswapV2Library.pairFor(factory, output, path[i + 2]) : _to;
-            IUniswapV2Pair(UniswapV2Library.pairFor(factory, input, output)).swap(amount0Out, amount1Out, to, new bytes(0));
+            address to = i < path.length - 2 ? MooniFactory(factory).pairFor( output, path[i + 2]) : _to;
+
+              IMooniswap(MooniFactory(factory).pairFor( input, output)).swap(input, output, amount0Out, amount1Out, referral);
+               // amount0Out, amount1Out, to, new bytes(0));
         }
+        if(output == WETH ) {
+        IWETH(WETH).withdraw(amount1Out);
+        TransferHelper.safeTransferETH(to,amount1Out);
+        } else {
+        TransferHelper.safeTransfer(output, _to, amount1Out);
+        }
+       
     }
     function swapExactTokensForTokens(
         uint amountIn,
         uint amountOutMin,
         address[] calldata path,
         address to,
-        uint deadline
-    ) external override ensure(deadline) returns (uint[] memory amounts) {
-        amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
-        require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
-        TransferHelper.safeTransferFrom(path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]);
-        _swap(amounts, path, to);
+        address referral
+    ) external override returns (uint[] memory amounts) {
+        amounts = MathLib.getAmountsOut(factory, amountIn, path);
+        require(amounts[amounts.length - 1] >= amountOutMin, "Router: INSUFFICIENT_OUTPUT_AMOUNT");
+        TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
+        _swap(amounts, path, to,referral);
     }
     function swapTokensForExactTokens(
         uint amountOut,
         uint amountInMax,
         address[] calldata path,
         address to,
-        uint deadline
-    ) external override ensure(deadline) returns (uint[] memory amounts) {
-        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
-        require(amounts[0] <= amountInMax, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
-        TransferHelper.safeTransferFrom(path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]);
-        _swap(amounts, path, to);
+        address referral
+    ) external override  returns (uint[] memory amounts) {
+        amounts = MathLib.getAmountsIn(factory, amountOut, path);
+        require(amounts[0] <= amountInMax,"EXCESSIVE_INPUT_AMOUNT");
+      TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
+       swap(amounts, path, to,referral);
     }
-    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
+    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to)
         external
         override
         payable
-        ensure(deadline)
         returns (uint[] memory amounts)
     {
-        require(path[0] == WETH, 'UniswapV2Router: INVALID_PATH');
-        amounts = UniswapV2Library.getAmountsOut(factory, msg.value, path);
-        require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
+        require(path[0] == WETH, "INVALID_PATH");
+        amounts = MathLib.getAmountsOut(factory, msg.value, path);
+        require(amounts[amounts.length - 1] >= amountOutMin, "INSUFFICIENT_OUTPUT_AMOUNT");
         IWETH(WETH).deposit{value: amounts[0]}();
-        assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+        TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
         _swap(amounts, path, to);
     }
-    function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
+    function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to)
         external
         override
-        ensure(deadline)
         returns (uint[] memory amounts)
     {
-        require(path[path.length - 1] == WETH, 'UniswapV2Router: INVALID_PATH');
-        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
-        require(amounts[0] <= amountInMax, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
-        TransferHelper.safeTransferFrom(path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]);
+        require(path[path.length - 1] == WETH, "INVALID_PATH");
+        amounts = MathLib.getAmountsIn(factory, amountOut, path);
+        require(amounts[0] <= amountInMax, "EXCESSIVE_INPUT_AMOUNT");
+        TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
         _swap(amounts, path, address(this));
-        IWETH(WETH).withdraw(amounts[amounts.length - 1]);
-        TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
+       
     }
-    function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
+    function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to)
         external
         override
-        ensure(deadline)
         returns (uint[] memory amounts)
     {
-        require(path[path.length - 1] == WETH, 'UniswapV2Router: INVALID_PATH');
-        amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
-        require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
-        TransferHelper.safeTransferFrom(path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]);
+        require(path[path.length - 1] == WETH, "INVALID_PATH");
+        amounts = MathLib.getAmountsOut(factory, amountIn, path);
+        require(amounts[amounts.length - 1] >= amountOutMin, "INSUFFICIENT_OUTPUT_AMOUNT");
+        TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
         _swap(amounts, path, address(this));
-        IWETH(WETH).withdraw(amounts[amounts.length - 1]);
-        TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
+
     }
-    function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)
+    function swapETHForExactTokens(uint amountOut, address[] calldata path, address to)
         external
         override
         payable
-        ensure(deadline)
         returns (uint[] memory amounts)
     {
-        require(path[0] == WETH, 'UniswapV2Router: INVALID_PATH');
-        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
-        require(amounts[0] <= msg.value, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
+        require(path[0] == WETH, "INVALID_PATH");
+        amounts = MathLib.getAmountsIn(factory, amountOut, path);
+        require(amounts[0] <= msg.value, "EXCESSIVE_INPUT_AMOUNT");
         IWETH(WETH).deposit{value: amounts[0]}();
-        assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+        TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
         _swap(amounts, path, to);
         if (msg.value > amounts[0]) TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]); // refund dust eth, if any
     }
 
     function quote(uint amountA, uint reserveA, uint reserveB) public pure override returns (uint amountB) {
-        return UniswapV2Library.quote(amountA, reserveA, reserveB);
+        return MathLib.quote(amountA, reserveA, reserveB);
     }
 
     function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) public pure override returns (uint amountOut) {
-        return UniswapV2Library.getAmountOut(amountIn, reserveIn, reserveOut);
+        return MathLib.getAmountOut(amountIn, reserveIn, reserveOut);
     }
 
     function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut) public pure override returns (uint amountIn) {
-        return UniswapV2Library.getAmountOut(amountOut, reserveIn, reserveOut);
+        return MathLib.getAmountOut(amountOut, reserveIn, reserveOut);
     }
 
     function getAmountsOut(uint amountIn, address[] memory path) public view override returns (uint[] memory amounts) {
-        return UniswapV2Library.getAmountsOut(factory, amountIn, path);
+        return MathLib.getAmountsOut(factory, amountIn, path);
     }
 
     function getAmountsIn(uint amountOut, address[] memory path) public view override returns (uint[] memory amounts) {
-        return UniswapV2Library.getAmountsIn(factory, amountOut, path);
+        return MathLib.getAmountsIn(factory, amountOut, path);
     }
 }
 

@@ -40,7 +40,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
@@ -119,11 +119,11 @@
 			]
 		},
 		"contracts/Mooniswap.sol": {
-			"keccak256": "0x259e9168df7b416cdaa74aa572c7ddb56481985f61a765da824cf9f709f1de87",
+			"keccak256": "0x305f6b860172ff050851913e4abab2a11eba0351d1de4e00119a3648fc00d57b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://26479f6faa247f27c59a0ede350618fca940877bbdd4df5d36c6b0ecd4e7690a",
-				"dweb:/ipfs/QmW4dC694scorNdxMYZom9hFTFz95FMm7nWffKTVj79cED"
+				"bzz-raw://370d904d6c7b1ba471d0a91c48fdb06456e63edc769552d65314bedaf3339a28",
+				"dweb:/ipfs/QmXi7MCESjChLdJMxXuG63XT1AZmyurYbK74Hrd5BiLDq7"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {
