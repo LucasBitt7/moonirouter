@@ -384,11 +384,11 @@
 			]
 		},
 		"contracts/MooniFactory.sol": {
-			"keccak256": "0x9154b4a5fac17b16fdabdb87afc4454c9214a8f749848660034819702abaec59",
+			"keccak256": "0x56bbb9403ca08c70650a27a6b56a5f72a28e0e5d6487e0ee5b2ce1bc4879cab4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ed04cd4fb9274ac9c096833fd43b92ddc5c07312529cbdeb9895576db6095d68",
-				"dweb:/ipfs/QmY3KU25g79A9Xbd6xWYnfxtUugSBA2MJu7jphtKgg49mT"
+				"bzz-raw://bba5eecb6b44c9d25996a0d88406dfb694ab83d8de0f98edd5a2e2cd91e95f5d",
+				"dweb:/ipfs/QmVW6ug99yViUApxTRWJnRZMBb2Jwa43gQ2mdeqVz16o9X"
 			]
 		},
 		"contracts/Mooniswap.sol": {

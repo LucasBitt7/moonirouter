@@ -186,24 +186,27 @@ contract MooniRouter {
     // **** SWAP ****
     // requires the initial amount to have already been sent to the first pair
     function _swap(uint[] memory amounts, address[] memory path, address _to,  address referral) private {
-        address _output;
-        uint _amount1Out;
         for (uint i; i < path.length - 1; i++) {
             (address input, address output) = (path[i], path[i + 1]);
             (address token0,) = MathLib.sortTokens(input, output);
             uint amountOut = amounts[i + 1];
             (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOut) : (amountOut, uint(0));
+          
+           
             address to = i < path.length - 2 ? MooniFactory(factory).pairFor( output, path[i + 2]) : _to;
             address pair = MooniFactory(factory).pairFor( input, output);
-              IMooniswap(pair).swap(IERC20(input), IERC20(output), amount0Out, amount1Out, referral);
-              _output = output;
-              _amount1Out = amount1Out;
+            IMooniswap(pair).swap(IERC20(input), IERC20(output), amount0Out, amount1Out, referral);
         }
-        if(_output == WETH ) {
-        IWETH(WETH).withdraw(_amount1Out);
-        TransferHelper.safeTransferETH(_to,_amount1Out);
+        uint lastIndex = path.length - 1;
+        address lastPath = path[lastIndex];
+        
+        if(lastPath == WETH ) {
+            uint amountOutLastPath = IWETH(WETH).balanceOf(address(this));
+            IWETH(WETH).withdraw(amountOutLastPath);
+            TransferHelper.safeTransferETH(_to,amountOutLastPath);
         } else {
-        TransferHelper.safeTransfer(_output, _to, _amount1Out);
+            uint amountOutLastPath = IERC20(lastPath).balanceOf(address(this));
+            TransferHelper.safeTransfer(lastPath, _to, amountOutLastPath);
         }
        
     }
