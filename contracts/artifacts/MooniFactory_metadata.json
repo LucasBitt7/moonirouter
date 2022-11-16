@@ -167,11 +167,6 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "factory",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
 						"name": "tokenA",
 						"type": "address"
 					},
@@ -189,36 +184,7 @@
 						"type": "address"
 					}
 				],
-				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "factory",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "tokenA",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "tokenB",
-						"type": "address"
-					}
-				],
-				"name": "pairFor2",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "pair",
-						"type": "address"
-					}
-				],
-				"stateMutability": "pure",
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -418,26 +384,26 @@
 			]
 		},
 		"contracts/MooniFactory.sol": {
-			"keccak256": "0xbc368726648dfdf9a30af6bea4ce30c6015d11e70e98308c52e8fbec924e46c6",
+			"keccak256": "0x9154b4a5fac17b16fdabdb87afc4454c9214a8f749848660034819702abaec59",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5fb1cb5d93afa549cc504668b1a5bdb3a3beb147414327d78ba7639f7d90928e",
-				"dweb:/ipfs/QmSG5jAjdmWGnM5AGd7zHbxkW4Fegvx9azzsA4zRdQCRkW"
+				"bzz-raw://ed04cd4fb9274ac9c096833fd43b92ddc5c07312529cbdeb9895576db6095d68",
+				"dweb:/ipfs/QmY3KU25g79A9Xbd6xWYnfxtUugSBA2MJu7jphtKgg49mT"
 			]
 		},
 		"contracts/Mooniswap.sol": {
-			"keccak256": "0x259e9168df7b416cdaa74aa572c7ddb56481985f61a765da824cf9f709f1de87",
+			"keccak256": "0x305f6b860172ff050851913e4abab2a11eba0351d1de4e00119a3648fc00d57b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://26479f6faa247f27c59a0ede350618fca940877bbdd4df5d36c6b0ecd4e7690a",
-				"dweb:/ipfs/QmW4dC694scorNdxMYZom9hFTFz95FMm7nWffKTVj79cED"
+				"bzz-raw://370d904d6c7b1ba471d0a91c48fdb06456e63edc769552d65314bedaf3339a28",
+				"dweb:/ipfs/QmXi7MCESjChLdJMxXuG63XT1AZmyurYbK74Hrd5BiLDq7"
 			]
 		},
 		"contracts/interfaces/IMooniswap.sol": {
-			"keccak256": "0x90837e0210b21fb4a6785ff181bf358a9a2199e495627ea49aec5a98fccb2595",
+			"keccak256": "0x91500b5a713d400989fc770ebe2dca029f8e41c6413fbb3a0b1e50292e1443d5",
 			"urls": [
-				"bzz-raw://9666780153c0c9651de28fc9ca9c7f0022a23071f41f1f89282e2efd9866f563",
-				"dweb:/ipfs/QmU9UrZyZZ8ZdWngPgR81BY8X9w6PSpjhZA1vn1GWa3PJh"
+				"bzz-raw://a1d09c003c372021cc8197c7556718575f0da1ea83c7122cfbd2edde63270525",
+				"dweb:/ipfs/QmZvjvrZLnqCxFFWjg22BMV7NbJzqWNCN3BAdsG2nmQ8w8"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {

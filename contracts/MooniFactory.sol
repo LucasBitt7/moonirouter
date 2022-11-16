@@ -36,16 +36,18 @@ contract MooniFactory is Ownable {
         (token0, token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         require(token0 != address(0), 'UniswapV2Library: ZERO_ADDRESS');
     }
-  function pairFor(address tokenA, address tokenB) public pure returns (address pair) {
+
+    function pairFor(address tokenA, address tokenB) public view returns (address pair) {
         (address token0, address token1) = sortTokens(tokenA, tokenB);
         bytes memory bytecode = type(Mooniswap).creationCode;
         pair = address(uint(keccak256(abi.encodePacked(
-                hex'ff',
+                bytes1(0xff),///// or hex'ff'
                 address(this),
                 keccak256(abi.encodePacked(token0, token1)),
                 keccak256(bytecode)
                  
             ))));
+       
     }
     function deploy(IERC20 tokenA, IERC20 tokenB) public  returns (address pair) {
         require(tokenA != tokenB, "Factory: not support same tokens");

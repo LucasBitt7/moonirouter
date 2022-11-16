@@ -1,8 +1,9 @@
 pragma solidity >=0.5.0;
 
-import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
+import {SafeMath, IERC20} from "../Mooniswap.sol";
+//import {IERC20} from "../interfaces/IERC20.sol";
 
-import "./SafeMath.sol";
+
 
 library MathLib {
     using SafeMath for uint;
@@ -24,24 +25,13 @@ library MathLib {
                 hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f' // init code hash
             ))));
     }
-  function pairFor(address factory, address tokenA, address tokenB) public pure returns (address pair) {
-        (address token0, address token1) = sortTokens(tokenA, tokenB);
-        bytes memory bytecode = type(Mooniswap).creationCode;
-        pair = address(uint(keccak256(abi.encodePacked(
-                hex'ff',
-                factory,
-                keccak256(abi.encodePacked(token0, token1)),
-                keccak256(bytecode)
-                 
-            ))));
-    }
+
 
     // fetches and sorts the reserves for a pair
-    function getReserves(address factory, address tokenA, address tokenB) internal view returns (uint reserveA, uint reserveB) {
+    function getReserves(address mooniswapPair, address tokenA, address tokenB) internal view returns (uint reserveA, uint reserveB) {
         (address token0,) = sortTokens(tokenA, tokenB);
-      //  (uint reserve0, uint reserve1,) = IUniswapV2Pair(pairFor(factory, tokenA, tokenB)).getReserves();
-        uint reserveA = tokenA.balenceOf(mooniswapPair);
-        uint reserveB = tokenB.balenceOf(mooniswapPair);
+        uint reserve0 = IERC20(tokenA).balanceOf(mooniswapPair);
+        uint reserve1 = IERC20(tokenB).balanceOf(mooniswapPair);
         (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
     }
 

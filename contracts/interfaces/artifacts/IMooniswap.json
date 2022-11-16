@@ -62,9 +62,11 @@
 			"getReturn(address,address,uint256)": "1e1401f8",
 			"getTokens()": "aa6ca808",
 			"increaseAllowance(address,uint256)": "39509351",
+			"initialize(address[])": "a224cee7",
 			"isToken(address)": "19f37361",
 			"name()": "06fdde03",
 			"owner()": "8da5cb5b",
+			"permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": "d505accf",
 			"renounceOwnership()": "715018a6",
 			"rescueFunds(address,uint256)": "78e3214f",
 			"swap(address,address,uint256,uint256,address)": "d5bcb9b5",
@@ -562,6 +564,19 @@
 		{
 			"inputs": [
 				{
+					"internalType": "contract IERC20[]",
+					"name": "assets",
+					"type": "address[]"
+				}
+			],
+			"name": "initialize",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "contract IERC20",
 					"name": "",
 					"type": "address"
@@ -602,6 +617,49 @@
 				}
 			],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_owner",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "spender",
+					"type": "address"
+				},
+				{
+					"internalType": "uint256",
+					"name": "value",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "deadline",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint8",
+					"name": "v",
+					"type": "uint8"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "r",
+					"type": "bytes32"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "s",
+					"type": "bytes32"
+				}
+			],
+			"name": "permit",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{

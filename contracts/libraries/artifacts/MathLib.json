@@ -1,0 +1,66 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"linkReferences": {},
+			"object": "60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212205a3680a242940671b971a6e8ba7d0318d26d3709de4c665bd6a6a27183f1176e64736f6c634300060c0033",
+			"opcodes": "PUSH1 0x56 PUSH1 0x23 PUSH1 0xB DUP3 DUP3 DUP3 CODECOPY DUP1 MLOAD PUSH1 0x0 BYTE PUSH1 0x73 EQ PUSH1 0x16 JUMPI INVALID JUMPDEST ADDRESS PUSH1 0x0 MSTORE PUSH1 0x73 DUP2 MSTORE8 DUP3 DUP2 RETURN INVALID PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 GAS CALLDATASIZE DUP1 LOG2 TIMESTAMP SWAP5 MOD PUSH18 0xB971A6E8BA7D0318D26D3709DE4C665BD6A6 LOG2 PUSH18 0x83F1176E64736F6C634300060C0033000000 ",
+			"sourceMap": "131:4355:10:-:0;;;;;;;;;;;;;;;;;;;;;;;;;"
+		},
+		"deployedBytecode": {
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212205a3680a242940671b971a6e8ba7d0318d26d3709de4c665bd6a6a27183f1176e64736f6c634300060c0033",
+			"opcodes": "PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 GAS CALLDATASIZE DUP1 LOG2 TIMESTAMP SWAP5 MOD PUSH18 0xB971A6E8BA7D0318D26D3709DE4C665BD6A6 LOG2 PUSH18 0x83F1176E64736F6C634300060C0033000000 ",
+			"sourceMap": "131:4355:10:-:0;;;;;;;;"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "17200",
+				"executionCost": "97",
+				"totalCost": "17297"
+			},
+			"internal": {
+				"getAmountIn(uint256,uint256,uint256)": "infinite",
+				"getAmountOut(uint256,uint256,uint256)": "infinite",
+				"getAmountsIn(address,uint256,address[] memory)": "infinite",
+				"getAmountsOut(address,uint256,address[] memory)": "infinite",
+				"getReserves(address,address,address)": "infinite",
+				"pairFor(address,address,address)": "infinite",
+				"quote(uint256,uint256,uint256)": "infinite",
+				"sortTokens(address,address)": "infinite"
+			}
+		},
+		"methodIdentifiers": {}
+	},
+	"abi": []
+}

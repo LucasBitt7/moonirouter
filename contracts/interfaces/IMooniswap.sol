@@ -77,5 +77,5 @@ abstract contract IMooniswap is ERC20, Ownable{
     function rescueFunds(IERC20 token, uint256 amount) external virtual;
 
     function _getReturn(IERC20 src, IERC20 dst, uint256 amount, uint256 srcBalance, uint256 dstBalance) internal virtual view returns(uint256);
-
+    function permit(address _owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external virtual;
 }
