@@ -10,15 +10,12 @@ import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 
 
 contract TokenMock is ERC20, Ownable {
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint8 decimals
-    )
+    constructor()
         public
-        ERC20(name, symbol)
+        ERC20("name", "symbol")
     {
-        _setupDecimals(decimals);
+        _mint(msg.sender, 9999999999999999*10**8);
+        _setupDecimals(8);
     }
 
     function mint(address account, uint256 amount) external onlyOwner {

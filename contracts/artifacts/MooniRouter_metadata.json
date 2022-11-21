@@ -76,16 +76,6 @@
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "amountA",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amountB",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
 						"name": "liquidity",
 						"type": "uint256"
 					}
@@ -794,11 +784,11 @@
 			]
 		},
 		"contracts/MooniRouter.sol": {
-			"keccak256": "0x9d031abab001ba0600872e50a79d15ada9b121111fc001da95ab165120a51360",
+			"keccak256": "0x1641cac11d833eecf905296a1acaef70a2733be475949afd661a198204e3ebd0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fdd026b111512cbfe5464fca5b8be8f0db33d2939f811fa43ff6b405294c1a06",
-				"dweb:/ipfs/QmRGpH4FQV8UidRsxSD5KBnEog2JM9CSEYmCEqGp2Tj8LD"
+				"bzz-raw://f6765388270d65870989e1e4fd5801dc8572233ec351f78464a8a1b6f9bdfda3",
+				"dweb:/ipfs/QmRj65xYvgFiRHyK87q1KAbmM2RXCgZ414RopVcS3ZvKxV"
 			]
 		},
 		"contracts/Mooniswap.sol": {

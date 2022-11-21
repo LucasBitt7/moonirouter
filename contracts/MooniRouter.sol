@@ -70,17 +70,35 @@ contract MooniRouter {
         uint amountAMin,
         uint amountBMin,
         address to
-    ) external  returns (uint amountA, uint amountB, uint liquidity) {
-        (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
+    ) external  returns (uint liquidity) {
+        if (MooniFactory(factory).pools(IERC20(tokenA), IERC20(tokenB)) == address(0)) {
+            MooniFactory(factory).deploy(IERC20(tokenA), IERC20(tokenB));
+        }
+        //(amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
         address pair = MooniFactory(factory).pairFor(tokenA, tokenB);
 
-        uint[] memory amounts = new uint[](2);
-        amounts[0] = amountA;
-        amounts[1] = amountB;
+        IERC20(tokenA).transferFrom(msg.sender,address(this), amountADesired);
+        IERC20(tokenB).transferFrom(msg.sender,address(this), amountBDesired);
 
-        IMooniswap(pair).deposit(amounts, amounts);
+        IERC20(tokenA).approve(pair, amountADesired);
+        IERC20(tokenB).approve(pair, amountBDesired);
+
+
+
+        uint[] memory amounts = new uint[](2);
+        amounts[0] = amountADesired;
+        amounts[1] = amountBDesired;
+
+        uint[] memory amountsMin = new uint[](2);
+        amountsMin[0] = amountAMin;
+        amountsMin[1] = amountBMin;
+
+        uint liquidity = IMooniswap(pair).deposit(amounts, amountsMin);
         uint amount = IMooniswap(pair).balanceOf(address(this));
-        IMooniswap(pair).transfer(to, amount); ///new way
+       // TransferHelper.safeTransfer(pair, to, amount);
+       IMooniswap(pair).transfer(to, amount); ///new way
+
+        return liquidity;
 
         // TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
         // TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);

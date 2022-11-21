@@ -6,23 +6,7 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "symbol",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "decimals",
-						"type": "uint8"
-					}
-				],
+				"inputs": [],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -520,11 +504,11 @@
 			]
 		},
 		"contracts/mocks/TokenMock.sol": {
-			"keccak256": "0xf8e311dd170c74e07f585183004dbec8253edac32ce4f648cc2e230861bbb19f",
+			"keccak256": "0xfa0c68b05eabe67fd69f053e7eead4de2d8e09cf8d982233bd5106e222234d96",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a89df90988b275e06fa0f68a031bc1e80cbe232d883e293ee4c309620927b8dd",
-				"dweb:/ipfs/QmYUs7StP79DsC4cT2WFNdrFgo88MD2xR7uoYSvquYKYNf"
+				"bzz-raw://e75970b11eb7c7afc28a6e6460dd9622a9c51b2ab13377a675f749e30169242b",
+				"dweb:/ipfs/Qmd9CkRdApe3ZY6gM43zdotdbK7Xqgg2sdg5UDHp9SyUcz"
 			]
 		}
 	},
