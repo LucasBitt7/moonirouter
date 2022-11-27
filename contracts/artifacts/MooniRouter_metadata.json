@@ -18,7 +18,7 @@
 						"type": "address"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "constructor"
 			},
 			{
@@ -80,7 +80,7 @@
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -113,16 +113,6 @@
 				],
 				"name": "addLiquidityETH",
 				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "amountToken",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amountETH",
-						"type": "uint256"
-					},
 					{
 						"internalType": "uint256",
 						"name": "liquidity",
@@ -784,19 +774,19 @@
 			]
 		},
 		"contracts/MooniRouter.sol": {
-			"keccak256": "0x1641cac11d833eecf905296a1acaef70a2733be475949afd661a198204e3ebd0",
+			"keccak256": "0x0991a88c84fa27f91ed23e15df90d724e378cfe6a3e035c17bd8be55ca985ccd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f6765388270d65870989e1e4fd5801dc8572233ec351f78464a8a1b6f9bdfda3",
-				"dweb:/ipfs/QmRj65xYvgFiRHyK87q1KAbmM2RXCgZ414RopVcS3ZvKxV"
+				"bzz-raw://1d3a209fc9c6d17fecb3a0aa2a62c1a7ccdd18c17ac4451d439ac018bf83bebe",
+				"dweb:/ipfs/QmYCdepx9NeoGSQrD4FUhggsB3FqwasgfrSwjQJojDJj9A"
 			]
 		},
 		"contracts/Mooniswap.sol": {
-			"keccak256": "0x305f6b860172ff050851913e4abab2a11eba0351d1de4e00119a3648fc00d57b",
+			"keccak256": "0xc3e852bd2528885b12a531d7b710bc73eb9937f036962e48c8d75a3364e3e940",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://370d904d6c7b1ba471d0a91c48fdb06456e63edc769552d65314bedaf3339a28",
-				"dweb:/ipfs/QmXi7MCESjChLdJMxXuG63XT1AZmyurYbK74Hrd5BiLDq7"
+				"bzz-raw://e11db3da7d6591f9b17ffd4ad0864c9b1098888dad5b2a00c314f24b19447905",
+				"dweb:/ipfs/QmU5NQybwzynQtuaKhTik8K2P8MTNhuPKxoMD2rK9ZTs26"
 			]
 		},
 		"contracts/interfaces/IMooniswap.sol": {
@@ -807,10 +797,10 @@
 			]
 		},
 		"contracts/interfaces/IWETH.sol": {
-			"keccak256": "0x1122a4b353a21deeb92441e25c50b0cc4405d536df1ddf9080bdcd88b26b327d",
+			"keccak256": "0x2d1641a2f522fb709689d1282e57a20161703350e69e5cb33230a022658cbcd1",
 			"urls": [
-				"bzz-raw://cb57b37eec483fa9982912aa65cbd3ad1bff6b2a2299282a8f373b18d060ae7e",
-				"dweb:/ipfs/QmTdpWsjqhabQmmjHFPqnN9TTmZM6KCVFDhActzT4XceW3"
+				"bzz-raw://dbb430194ab5ae7d720ae23df5b078450a12e1c883c681ca0fb20718b7f4652a",
+				"dweb:/ipfs/QmfVNFRmetRJf8XuooPUAuwExvsLU57KZnin4dGpQLqCfA"
 			]
 		},
 		"contracts/libraries/MathLib.sol": {

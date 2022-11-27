@@ -21,14 +21,12 @@ contract MooniRouter {
     address public immutable  WETH;
 
 
-    constructor(address _factory, address _WETH) public {
+    constructor(address _factory, address _WETH) public payable{
         factory = _factory;
         WETH = _WETH;
     }
 
-    receive() external payable {
-        assert(msg.sender == WETH); // only accept ETH via fallback from the WETH contract
-    }
+    receive() external payable {}
 
     // **** ADD LIQUIDITY ****
     function _addLiquidity(
@@ -70,13 +68,13 @@ contract MooniRouter {
         uint amountAMin,
         uint amountBMin,
         address to
-    ) external  returns (uint liquidity) {
+    ) public payable returns (uint liquidity) {
         if (MooniFactory(factory).pools(IERC20(tokenA), IERC20(tokenB)) == address(0)) {
             MooniFactory(factory).deploy(IERC20(tokenA), IERC20(tokenB));
         }
         //(amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
         address pair = MooniFactory(factory).pairFor(tokenA, tokenB);
-
+ 
         IERC20(tokenA).transferFrom(msg.sender,address(this), amountADesired);
         IERC20(tokenB).transferFrom(msg.sender,address(this), amountBDesired);
 
@@ -100,35 +98,34 @@ contract MooniRouter {
 
         return liquidity;
 
-        // TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
-        // TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
-        // liquidity = IUniswapV2Pair(pair).mint(to);  UNISWAPV2 WAY
+ 
     }
+
+
     function addLiquidityETH(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
         uint amountETHMin,
         address to
-    ) external  payable returns (uint amountToken, uint amountETH, uint liquidity) {
-        (amountToken, amountETH) = _addLiquidity(
-            token,
-            WETH,
-            amountTokenDesired,
-            msg.value,
-            amountTokenMin,
-            amountETHMin
-        );
+    ) external  payable  returns (uint liquidity) {
 
-        uint[] memory amounts = new uint[](2);
-        amounts[0] = amountToken;
-        amounts[1] = amountETH;
+        IWETH(WETH).deposit{value: msg.value}();
+        uint amountADesired = IWETH(WETH).balanceOf(address(this));
+        IWETH(WETH).transfer(msg.sender, amountADesired);
 
-        address pair = MooniFactory(factory).pairFor(token, WETH);
-        IMooniswap(pair).deposit{value: amountETH}(amounts, amounts);
-        uint amount = IMooniswap(pair).balanceOf(address(this));
-        IMooniswap(pair).transfer(to, amount); ///new way
-        if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH); // refund dust eth, if any
+        uint liquidity = addLiquidity(
+        WETH,
+        token,
+       amountADesired,
+        amountTokenDesired,
+       amountETHMin,
+       amountTokenMin,
+         to
+    );
+
+        return liquidity;
+
     }
 
     // **** REMOVE LIQUIDITY ****
@@ -142,6 +139,8 @@ contract MooniRouter {
     ) public  returns (uint amountA, uint amountB) {
         address pair = MooniFactory(factory).pairFor( tokenA, tokenB);
 
+
+        IMooniswap(pair).transferFrom(msg.sender,address(this), liquidity);
         uint[] memory amounts = new uint[](2);
         amounts[0] = amountAMin;
         amounts[1] = amountBMin;  
@@ -167,22 +166,25 @@ contract MooniRouter {
         address to
     ) public  returns (uint amountToken, uint amountETH) {
         address pair = MooniFactory(factory).pairFor( WETH, token);
-        uint[] memory amounts = new uint[](2);
-        amounts[0] = amountTokenMin;
-        amounts[1] = amountETHMin;  
-        IMooniswap(pair).withdraw(liquidity, amounts);
-        (amountToken, amountETH) = removeLiquidity(
-            token,
-            WETH,
-            liquidity,
-            amountTokenMin,
-            amountETHMin,
-            address(this)
-        );
 
-        TransferHelper.safeTransfer(token, to, amountToken);
+
+        IMooniswap(pair).transferFrom(msg.sender,address(this), liquidity);
+        uint[] memory amounts = new uint[](2);
+        amounts[0] = amountETHMin;
+        amounts[1] = amountTokenMin;  
+        IMooniswap(pair).withdraw(liquidity, amounts);
+
+        uint amountETH = IWETH(WETH).balanceOf(address(this));
+        uint amountToken = IERC20(token).balanceOf(address(this));
         IWETH(WETH).withdraw(amountETH);
+
         TransferHelper.safeTransferETH(to, amountETH);
+        TransferHelper.safeTransfer(token, to, amountToken);
+
+        (address token0,) = MathLib.sortTokens(WETH, token);
+        (amountETH, amountToken) = WETH == token0 ? (amounts[0], amounts[1]) : (amounts[1], amounts[0]);
+        require(amountToken >= amountTokenMin, "INSUFFICIENT_A_AMOUNT");
+        require(amountETH >= amountETHMin, "INSUFFICIENT_B_AMOUNT");
     }
     function removeLiquidityWithPermit(
         address tokenA,

@@ -1,0 +1,88 @@
+{
+	"compiler": {
+		"version": "0.6.12+commit.27d51765"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "addLiquidityETH",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "callF",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/test.sol": "dsa"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/interfaces/IWETH.sol": {
+			"keccak256": "0x2d1641a2f522fb709689d1282e57a20161703350e69e5cb33230a022658cbcd1",
+			"urls": [
+				"bzz-raw://dbb430194ab5ae7d720ae23df5b078450a12e1c883c681ca0fb20718b7f4652a",
+				"dweb:/ipfs/QmfVNFRmetRJf8XuooPUAuwExvsLU57KZnin4dGpQLqCfA"
+			]
+		},
+		"contracts/test.sol": {
+			"keccak256": "0xf6f37ee6e3ec294115aaeee2b8e3ab38868b3777e7415456336c212e83b9394f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://19b01a25872fa678c027d97d223a33d6185f789016e83438d7f4ccf295f510ff",
+				"dweb:/ipfs/QmaeHePCmZEyAKJeZeNxznPeEQWYPntiYmFTXxtNeFdfZo"
+			]
+		}
+	},
+	"version": 1
+}
