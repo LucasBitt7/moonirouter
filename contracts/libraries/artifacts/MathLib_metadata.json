@@ -4,7 +4,37 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "factory",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					}
+				],
+				"name": "pairFor",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "pair",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -26,7 +56,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -113,10 +143,10 @@
 			]
 		},
 		"contracts/libraries/MathLib.sol": {
-			"keccak256": "0x64593220c56d91c71f6ef01ad4b9290a9e887c9a2c9e404dee67160643bf2191",
+			"keccak256": "0x6801868524c589a38639b8f5f61f9e2acf10386746bc0e707fd387f08a19a3cc",
 			"urls": [
-				"bzz-raw://8bfa72d57190f3055d8232995207c593e1e41da823824d6d820edf92c1ea0b69",
-				"dweb:/ipfs/QmWFPsBmpxcwGvsciVuiMtFyQ7ot3yxQ5qTY5hfs1dM4y9"
+				"bzz-raw://e1a6543b11fb49ef94802baeeb52ba4ca18ad4fbd4f6807f34ba27370db78efd",
+				"dweb:/ipfs/QmPagVd26yBqhQW2BFGvN17zn31QufoVY6beKLN8B7FVF5"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {

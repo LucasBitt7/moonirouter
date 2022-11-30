@@ -119,11 +119,11 @@
 			]
 		},
 		"contracts/Mooniswap.sol": {
-			"keccak256": "0xc3e852bd2528885b12a531d7b710bc73eb9937f036962e48c8d75a3364e3e940",
+			"keccak256": "0x305f6b860172ff050851913e4abab2a11eba0351d1de4e00119a3648fc00d57b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e11db3da7d6591f9b17ffd4ad0864c9b1098888dad5b2a00c314f24b19447905",
-				"dweb:/ipfs/QmU5NQybwzynQtuaKhTik8K2P8MTNhuPKxoMD2rK9ZTs26"
+				"bzz-raw://370d904d6c7b1ba471d0a91c48fdb06456e63edc769552d65314bedaf3339a28",
+				"dweb:/ipfs/QmXi7MCESjChLdJMxXuG63XT1AZmyurYbK74Hrd5BiLDq7"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {

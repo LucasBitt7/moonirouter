@@ -774,19 +774,19 @@
 			]
 		},
 		"contracts/MooniRouter.sol": {
-			"keccak256": "0x0991a88c84fa27f91ed23e15df90d724e378cfe6a3e035c17bd8be55ca985ccd",
+			"keccak256": "0xab3d279000a9f0db8ee30257fcceb8d6ed41eca5de992ca9bf10e2d52f0eb54c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1d3a209fc9c6d17fecb3a0aa2a62c1a7ccdd18c17ac4451d439ac018bf83bebe",
-				"dweb:/ipfs/QmYCdepx9NeoGSQrD4FUhggsB3FqwasgfrSwjQJojDJj9A"
+				"bzz-raw://2981c430f980c52f9bdd7f1f08e8982d298011833da98a3ca16d7692298189c1",
+				"dweb:/ipfs/Qmf6QMjk2R8ZJTNx4gtc5PD3TdNEMNsnEVtJFCsAfhc8rk"
 			]
 		},
 		"contracts/Mooniswap.sol": {
-			"keccak256": "0xc3e852bd2528885b12a531d7b710bc73eb9937f036962e48c8d75a3364e3e940",
+			"keccak256": "0x305f6b860172ff050851913e4abab2a11eba0351d1de4e00119a3648fc00d57b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e11db3da7d6591f9b17ffd4ad0864c9b1098888dad5b2a00c314f24b19447905",
-				"dweb:/ipfs/QmU5NQybwzynQtuaKhTik8K2P8MTNhuPKxoMD2rK9ZTs26"
+				"bzz-raw://370d904d6c7b1ba471d0a91c48fdb06456e63edc769552d65314bedaf3339a28",
+				"dweb:/ipfs/QmXi7MCESjChLdJMxXuG63XT1AZmyurYbK74Hrd5BiLDq7"
 			]
 		},
 		"contracts/interfaces/IMooniswap.sol": {
@@ -804,10 +804,10 @@
 			]
 		},
 		"contracts/libraries/MathLib.sol": {
-			"keccak256": "0x64593220c56d91c71f6ef01ad4b9290a9e887c9a2c9e404dee67160643bf2191",
+			"keccak256": "0x6801868524c589a38639b8f5f61f9e2acf10386746bc0e707fd387f08a19a3cc",
 			"urls": [
-				"bzz-raw://8bfa72d57190f3055d8232995207c593e1e41da823824d6d820edf92c1ea0b69",
-				"dweb:/ipfs/QmWFPsBmpxcwGvsciVuiMtFyQ7ot3yxQ5qTY5hfs1dM4y9"
+				"bzz-raw://e1a6543b11fb49ef94802baeeb52ba4ca18ad4fbd4f6807f34ba27370db78efd",
+				"dweb:/ipfs/QmPagVd26yBqhQW2BFGvN17zn31QufoVY6beKLN8B7FVF5"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {

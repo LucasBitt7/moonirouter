@@ -16,20 +16,21 @@ library MathLib {
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
-    function pairFor(address factory, address tokenA, address tokenB) internal pure returns (address pair) {
+    function pairFor(address factory, address tokenA, address tokenB) public view returns (address pair) {
         (address token0, address token1) = sortTokens(tokenA, tokenB);
         pair = address(uint(keccak256(abi.encodePacked(
-                hex'ff',
+                bytes1(0xff),///// or hex'ff'
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f' // init code hash
+                hex'00890933100695901a8b603e51d790182e161c21a3c01db32f2f513f6f024a44' // init code hash
             ))));
+       
     }
 
-
     // fetches and sorts the reserves for a pair
-    function getReserves(address mooniswapPair, address tokenA, address tokenB) internal view returns (uint reserveA, uint reserveB) {
+    function getReserves(address factory, address tokenA, address tokenB) internal view returns (uint reserveA, uint reserveB) {
         (address token0,) = sortTokens(tokenA, tokenB);
+        address mooniswapPair = pairFor(factory, tokenA, tokenB);
         uint reserve0 = IERC20(tokenA).balanceOf(mooniswapPair);
         uint reserve1 = IERC20(tokenB).balanceOf(mooniswapPair);
         (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);

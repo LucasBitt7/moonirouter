@@ -314,7 +314,7 @@ contract MooniRouter {
     }
 
     function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut) public pure  returns (uint amountIn) {
-        return MathLib.getAmountOut(amountOut, reserveIn, reserveOut);
+        return MathLib.getAmountIn(amountOut, reserveIn, reserveOut);
     }
 
     function getAmountsOut(uint amountIn, address[] memory path) public view  returns (uint[] memory amounts) {
