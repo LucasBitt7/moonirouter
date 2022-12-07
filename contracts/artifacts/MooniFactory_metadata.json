@@ -190,6 +190,30 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "tokenA",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "tokenB",
+						"type": "address"
+					}
+				],
+				"name": "pairFor2",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "pair",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "contract IERC20",
 						"name": "",
 						"type": "address"
@@ -384,11 +408,11 @@
 			]
 		},
 		"contracts/MooniFactory.sol": {
-			"keccak256": "0x56bbb9403ca08c70650a27a6b56a5f72a28e0e5d6487e0ee5b2ce1bc4879cab4",
+			"keccak256": "0x5c54b55af5869421fb23876ad517580b4d81fc145258214a44b8134ae29477fd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bba5eecb6b44c9d25996a0d88406dfb694ab83d8de0f98edd5a2e2cd91e95f5d",
-				"dweb:/ipfs/QmVW6ug99yViUApxTRWJnRZMBb2Jwa43gQ2mdeqVz16o9X"
+				"bzz-raw://dffa2293e5d7be23d253eb62b778e237469b0ee93caae20d375be9611db09971",
+				"dweb:/ipfs/QmPwzusHHFALSca1GoJw5MX2Vfdg4uMHXnTRoJhz7iK9ng"
 			]
 		},
 		"contracts/Mooniswap.sol": {

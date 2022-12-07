@@ -22,7 +22,7 @@ library MathLib {
                 bytes1(0xff),///// or hex'ff'
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'00890933100695901a8b603e51d790182e161c21a3c01db32f2f513f6f024a44' // init code hash
+                hex'61b42b8c3ac6ba57e9392fd523a18204ad0a03dfae16d03d113ed6b021765165' // init code hash
             ))));
        
     }

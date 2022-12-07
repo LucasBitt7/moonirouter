@@ -18,7 +18,7 @@
 						"type": "address"
 					}
 				],
-				"stateMutability": "payable",
+				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
 			{
@@ -80,7 +80,7 @@
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "payable",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -662,6 +662,44 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amounts",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountsmin",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "input",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "output",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "referral",
+						"type": "address"
+					}
+				],
+				"name": "uuswap",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"stateMutability": "payable",
 				"type": "receive"
 			}
@@ -766,19 +804,19 @@
 			]
 		},
 		"contracts/MooniFactory.sol": {
-			"keccak256": "0x56bbb9403ca08c70650a27a6b56a5f72a28e0e5d6487e0ee5b2ce1bc4879cab4",
+			"keccak256": "0x5c54b55af5869421fb23876ad517580b4d81fc145258214a44b8134ae29477fd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bba5eecb6b44c9d25996a0d88406dfb694ab83d8de0f98edd5a2e2cd91e95f5d",
-				"dweb:/ipfs/QmVW6ug99yViUApxTRWJnRZMBb2Jwa43gQ2mdeqVz16o9X"
+				"bzz-raw://dffa2293e5d7be23d253eb62b778e237469b0ee93caae20d375be9611db09971",
+				"dweb:/ipfs/QmPwzusHHFALSca1GoJw5MX2Vfdg4uMHXnTRoJhz7iK9ng"
 			]
 		},
 		"contracts/MooniRouter.sol": {
-			"keccak256": "0xab3d279000a9f0db8ee30257fcceb8d6ed41eca5de992ca9bf10e2d52f0eb54c",
+			"keccak256": "0xa08fe8db19f6e0d0e6796cebd0db15385130cf85ad332ebd4664dea01fda4fcf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2981c430f980c52f9bdd7f1f08e8982d298011833da98a3ca16d7692298189c1",
-				"dweb:/ipfs/Qmf6QMjk2R8ZJTNx4gtc5PD3TdNEMNsnEVtJFCsAfhc8rk"
+				"bzz-raw://cd7f77bfc26f13838bf4513e58a533f70e324407ceaea67a372aad9cabbd6278",
+				"dweb:/ipfs/QmQ7HBBdBpuRna7FbwAaznbxake7CRicK8mSQbxepkKxJs"
 			]
 		},
 		"contracts/Mooniswap.sol": {
@@ -804,10 +842,10 @@
 			]
 		},
 		"contracts/libraries/MathLib.sol": {
-			"keccak256": "0x6801868524c589a38639b8f5f61f9e2acf10386746bc0e707fd387f08a19a3cc",
+			"keccak256": "0xb3cf968b3df40cec2bb28ba3502a7c150f76ea3dec1278661904dfcd047ebb75",
 			"urls": [
-				"bzz-raw://e1a6543b11fb49ef94802baeeb52ba4ca18ad4fbd4f6807f34ba27370db78efd",
-				"dweb:/ipfs/QmPagVd26yBqhQW2BFGvN17zn31QufoVY6beKLN8B7FVF5"
+				"bzz-raw://158c18e32b070f7ca80d738588bef242ab8804d540440868d1b40b0772db2a78",
+				"dweb:/ipfs/Qmf9ayBDj5okygzvYDTUiwzdo9ivkziCX6GFCuhmC18kLM"
 			]
 		},
 		"contracts/libraries/Sqrt.sol": {

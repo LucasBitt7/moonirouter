@@ -49,6 +49,18 @@ contract MooniFactory is Ownable {
             ))));
        
     }
+
+    function pairFor2(address tokenA, address tokenB) public view returns (address pair) {
+        (address token0, address token1) = sortTokens(tokenA, tokenB);
+        pair = address(uint(keccak256(abi.encodePacked(
+                bytes1(0xff),///// or hex'ff'
+                address(this),
+                keccak256(abi.encodePacked(token0, token1)),
+                hex'61b42b8c3ac6ba57e9392fd523a18204ad0a03dfae16d03d113ed6b021765165' // init code hash
+            ))));
+       
+    }
+    
     function deploy(IERC20 tokenA, IERC20 tokenB) public  returns (address pair) {
         require(tokenA != tokenB, "Factory: not support same tokens");
         require(pools[tokenA][tokenB] == address(0), "Factory: pool already exists");

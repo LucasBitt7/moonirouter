@@ -21,7 +21,7 @@ contract MooniRouter {
     address public immutable  WETH;
 
 
-    constructor(address _factory, address _WETH) public payable{
+    constructor(address _factory, address _WETH) public {
         factory = _factory;
         WETH = _WETH;
     }
@@ -68,7 +68,7 @@ contract MooniRouter {
         uint amountAMin,
         uint amountBMin,
         address to
-    ) public payable returns (uint liquidity) {
+    ) public  returns (uint liquidity) {
         if (MooniFactory(factory).pools(IERC20(tokenA), IERC20(tokenB)) == address(0)) {
             MooniFactory(factory).deploy(IERC20(tokenA), IERC20(tokenB));
         }
@@ -201,21 +201,37 @@ contract MooniRouter {
          IMooniswap(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
         (amountA, amountB) = removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, to);
     }
-
+ function uuswap(uint amounts,uint amountsmin, address input, address output, address _to,  address referral) public {
+    address pair = MooniFactory(factory).pairFor( input, output);
+    IERC20(input).transferFrom(msg.sender, address(this), amounts);
+    IERC20(input).approve(pair, amounts);
+  
+    IMooniswap(pair).swap(IERC20(input), IERC20(output), amounts, amountsmin, referral);
+    uint amountOutLastPath = IERC20(output).balanceOf(address(this));
+    IERC20(output).transfer(_to, amountOutLastPath);
+ }
+        
 
     // **** SWAP ****
     // requires the initial amount to have already been sent to the first pair
     function _swap(uint[] memory amounts, address[] memory path, address _to,  address referral) private {
+        
         for (uint i; i < path.length - 1; i++) {
             (address input, address output) = (path[i], path[i + 1]);
-            (address token0,) = MathLib.sortTokens(input, output);
-            uint amountOut = amounts[i + 1];
-            (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOut) : (amountOut, uint(0));
-          
-           
-            address to = i < path.length - 2 ? MooniFactory(factory).pairFor( output, path[i + 2]) : _to;
             address pair = MooniFactory(factory).pairFor( input, output);
-            IMooniswap(pair).swap(IERC20(input), IERC20(output), amount0Out, amount1Out, referral);
+            
+          //  (address token0,) = MathLib.sortTokens(input, output);
+            uint amountIn = amounts[i];
+            uint amountOut = amounts[i + 1];
+           // (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOut) : (amountOut, uint(0));
+
+            IERC20(input).approve(pair, amountIn);
+         //   if(input == token0) {
+                IMooniswap(pair).swap(IERC20(input), IERC20(output), amountIn, amountIn/100, referral);
+            // }else {
+            //     IMooniswap(pair).swap(IERC20(input), IERC20(output), amount0Out, amount0Out, referral);
+            // }
+            
         }
         uint lastIndex = path.length - 1;
         address lastPath = path[lastIndex];
@@ -226,7 +242,8 @@ contract MooniRouter {
             TransferHelper.safeTransferETH(_to,amountOutLastPath);
         } else {
             uint amountOutLastPath = IERC20(lastPath).balanceOf(address(this));
-            TransferHelper.safeTransfer(lastPath, _to, amountOutLastPath);
+           // TransferHelper.safeTransfer(lastPath, _to, amountOutLastPath);
+            IERC20(lastPath).transfer(_to, amountOutLastPath);
         }
        
     }
@@ -239,7 +256,8 @@ contract MooniRouter {
     ) external  returns (uint[] memory amounts) {
         amounts = MathLib.getAmountsOut(factory, amountIn, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "Router: INSUFFICIENT_OUTPUT_AMOUNT");
-        TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
+        IERC20(path[0]).transferFrom(msg.sender, address(this), amountIn);
+
         _swap(amounts, path, to,referral);
     }
     function swapTokensForExactTokens(
@@ -251,7 +269,7 @@ contract MooniRouter {
     ) external   returns (uint[] memory amounts) {
         amounts = MathLib.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= amountInMax,"EXCESSIVE_INPUT_AMOUNT");
-      TransferHelper.safeTransfer(path[0], address(this), amounts[0]);
+        IERC20(path[0]).transferFrom(msg.sender, address(this), amountOut);
        _swap(amounts, path, to,referral);
     }
     function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, address referral)
